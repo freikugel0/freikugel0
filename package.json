@@ -15,6 +15,7 @@
     "@tanstack/react-router": "^1.130.2",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.23.24",
     "howler": "^2.2.4",
     "html-react-parser": "^5.2.6",
     "lucide-react": "^0.532.0",
@@ -22,6 +23,7 @@
     "react-dom": "^19.1.0",
     "react-rnd": "^10.5.2",
     "simple-icons": "^15.8.0",
+    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.11",
     "zustand": "^5.0.6"
   },

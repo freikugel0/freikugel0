@@ -5,6 +5,8 @@ import Taskbar from "../components/taskbar";
 import Menu from "../components/windows/menu";
 import { registeredApps } from "../constant/registered_apps";
 import useAppStore from "../stores/app.store";
+import { useState } from "react";
+import Bootstrapper from "../components/bootstrapper";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -12,8 +14,9 @@ export const Route = createFileRoute("/")({
 
 function RouteComponent() {
   const { start_menu, setStartMenu } = useAppStore();
+  const [booted, setBooted] = useState(false);
 
-  return (
+  return booted ? (
     <div className="w-full">
       <Desktop
         onClick={() => setStartMenu(false)}
@@ -42,5 +45,7 @@ function RouteComponent() {
         return <app.windowComponent key={appid} />;
       })}
     </div>
+  ) : (
+    <Bootstrapper onFinish={() => setBooted(true)} />
   );
 }

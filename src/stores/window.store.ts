@@ -29,6 +29,17 @@ type WindowState = {
 };
 
 export const defaultInitSize = { width: 500, height: 400 };
+
+const windowDefaults: Partial<Record<AppId, Partial<WindowMeta>>> = {
+  about: {
+    pos: { x: 600, y: 20 },
+    size: { width: 600, height: 520 },
+  },
+  projects: {
+    size: { width: 720, height: 500 },
+  },
+};
+
 const useWindowStore = create<WindowState>()((set, get) => ({
   windows: {},
   focusedAppId: null,
@@ -36,18 +47,28 @@ const useWindowStore = create<WindowState>()((set, get) => ({
 
   initWindow: (appId, size) => {
     const state = get();
-    if (state.windows[appId]) return;
+    if (state.windows[appId]) {
+      get().focusWindow(appId);
+      return;
+    }
 
-    const defaultPos = {
-      x: window.innerWidth / 2 - (size?.width ?? defaultInitSize.width) / 2,
-      y: window.innerHeight / 2 - (size?.height ?? defaultInitSize.height) / 2,
+    const def = windowDefaults[appId];
+    const finalSize = size ?? def?.size ?? defaultInitSize;
+    const finalPos = def?.pos ?? {
+      x: window.innerWidth / 2 - finalSize.width / 2,
+      y: window.innerHeight / 2 - finalSize.height / 2,
     };
+
     const newZ = state.zIndexCounter;
 
     set({
       windows: {
         ...state.windows,
-        [appId]: { pos: defaultPos, size: size ?? defaultInitSize, zIndex: newZ },
+        [appId]: {
+          pos: finalPos,
+          size: finalSize,
+          zIndex: newZ,
+        },
       },
       focusedAppId: appId,
       zIndexCounter: newZ + 1,
